@@ -1,4 +1,10 @@
-include(":app")
-include(":compiler")
-include(":framework")
-include(":plugin")
+rootProject.name = "tracing"
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+    }
+}
