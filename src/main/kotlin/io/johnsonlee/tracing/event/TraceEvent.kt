@@ -1,83 +1,24 @@
 package io.johnsonlee.tracing.event
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 import java.lang.management.ManagementFactory
+import java.util.concurrent.TimeUnit
 
-data class TraceEvent(
-        @JsonProperty("name")
-        val name: String,
-
-        @JsonProperty("cat")
-        val category: String,
-
-        @JsonProperty("ph")
-        val phase: EventPhase,
-
-        @JsonProperty("pid")
-        val pid: Long = ManagementFactory.getRuntimeMXBean().name.substringBefore('@').toLongOrNull() ?: 0,
-
-        @JsonProperty("tid")
-        val tid: Long = Thread.currentThread().id,
-
-        @JsonProperty("ts")
-        val ts: Long = System.currentTimeMillis(),
-
-        @JsonProperty("args")
-        val args: Map<String, Any?> = emptyMap()
-) : Serializable
-
-
-interface EventPhase : Serializable
-
-enum class DurationEvent : EventPhase {
-    @JsonProperty("B")
-    BEGIN,
-
-    @JsonProperty("E")
-    END
-
+interface TraceEvent : Serializable {
+    val name: String
+    val category: String
+    val phase: EventPhase
+    val ts: Long
+    val tts: Long
+    val pid: Long
+    val tid: Long
+    val args: Map<String, Any?>
 }
 
-enum class CompleteEvent : EventPhase {
-    @JsonProperty("X")
-    COMPLETE
-}
+fun ts(): Long = TimeUnit.NANOSECONDS.toMicros(System.nanoTime())
 
-enum class InstanceEvent : EventPhase {
-    @JsonProperty("i")
-    INSTANT,
-}
+fun tts(): Long = TimeUnit.NANOSECONDS.toMicros(ManagementFactory.getThreadMXBean().currentThreadCpuTime)
 
+fun pid(): Long = ManagementFactory.getRuntimeMXBean().name.substringBefore('@').toLongOrNull() ?: 0
 
-enum class CounterEvent : EventPhase {
-    @JsonProperty("C")
-    COUNTER,
-}
-
-enum class AsyncEvent : EventPhase {
-    @JsonProperty("b")
-    NESTABLE_START,
-
-    @JsonProperty("n")
-    NESTABLE_INSTANT,
-
-    @JsonProperty("e")
-    NESTABLE_END,
-}
-
-enum class FlowEvent : EventPhase {
-    @JsonProperty("s")
-    START,
-
-    @JsonProperty("t")
-    STEP,
-
-    @JsonProperty("f")
-    END,
-}
-
-enum class SampleEvent : EventPhase {
-    @JsonProperty("P")
-    SAMPLE,
-}
+fun tid(): Long = Thread.currentThread().id
