@@ -24,14 +24,14 @@ object Trace {
             category: String,
             args: Map<String, Any?> = emptyMap(),
             block: () -> R
-    ): R {
+    ): R{
         begin(name, category, args)
         val result = block()
         end(name, category, args)
         return result
     }
 
-    fun begin(name: String, category: String, args: Map<String, Any?> = emptyMap()) {
+    fun begin(name: String, category: String, args: Map<String, Any?> = emptyMap()) = apply {
         events += DurationEvent(
                 name = name,
                 category = category,
@@ -40,7 +40,7 @@ object Trace {
         )
     }
 
-    fun end(name: String, category: String, args: Map<String, Any?> = emptyMap()) {
+    fun end(name: String, category: String, args: Map<String, Any?> = emptyMap()) = apply {
         events += DurationEvent(
                 name = name,
                 category = category,

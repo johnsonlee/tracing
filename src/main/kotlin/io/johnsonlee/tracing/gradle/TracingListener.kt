@@ -1,6 +1,7 @@
 package io.johnsonlee.tracing.gradle
 
 import com.sun.source.util.TaskListener
+import io.johnsonlee.once.Once
 import io.johnsonlee.tracing.Trace
 import org.gradle.BuildListener
 import org.gradle.BuildResult
@@ -36,12 +37,17 @@ internal class TracingListener(
   , TaskListener
   , TestListener {
 
+    private val started = Once<Trace>()
+
     init {
+        buildStarted(gradle)
         gradle.addListener(this)
     }
 
     override fun buildStarted(gradle: Gradle) {
-        Trace.begin(gradle.cmdline, CATEGORY_BUILD)
+        started {
+            Trace.begin(gradle.cmdline, CATEGORY_BUILD)
+        }
     }
 
     override fun beforeSettings(settings: Settings) {
