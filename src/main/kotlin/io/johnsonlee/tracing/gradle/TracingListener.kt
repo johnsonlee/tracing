@@ -37,18 +37,12 @@ internal class TracingListener(
   , TaskListener
   , TestListener {
 
-    private val started = Once<Trace>()
-
     init {
-        buildStarted(gradle)
         gradle.addListener(this)
+        Trace.begin(gradle.cmdline, CATEGORY_BUILD)
     }
 
-    override fun buildStarted(gradle: Gradle) {
-        started {
-            Trace.begin(gradle.cmdline, CATEGORY_BUILD)
-        }
-    }
+    override fun buildStarted(gradle: Gradle) = Unit
 
     override fun beforeSettings(settings: Settings) {
         Trace.begin("settings evaluation", CATEGORY_INITIALIZATION)

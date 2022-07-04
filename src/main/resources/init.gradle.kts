@@ -8,7 +8,7 @@ initscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath("io.johnsonlee.tracing:tracing:0.4.0")
+        classpath("io.johnsonlee.tracing:tracing:0.5.0")
     }
 }
 
