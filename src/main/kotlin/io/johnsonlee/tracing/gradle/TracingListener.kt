@@ -29,13 +29,7 @@ import java.io.File
 @Suppress("UnstableApiUsage", "OVERRIDE_DEPRECATION")
 internal class TracingListener(
         private val gradle: Gradle
-) : ArtifactTransformListener
-  , BuildListener
-  , DependencyResolutionListener
-  , ProjectEvaluationListener
-  , TaskExecutionListener
-  , TaskListener
-  , TestListener {
+) : ArtifactTransformListener, BuildListener, DependencyResolutionListener, ProjectEvaluationListener, TaskExecutionListener, TaskListener, TestListener {
 
     init {
         gradle.addListener(this)
@@ -144,11 +138,12 @@ internal class TracingListener(
     }
 }
 
-private const val CATEGORY_BUILD = "build"
-private const val CATEGORY_INITIALIZATION = "initialization"
-private const val CATEGORY_CONFIGURATION = "configuration"
-private const val CATEGORY_EXECUTION = "execution"
-private const val CATEGORY_TEST = "test"
+internal const val CATEGORY_UNKNOWN = "unknown"
+internal const val CATEGORY_BUILD = "build"
+internal const val CATEGORY_INITIALIZATION = "initialization"
+internal const val CATEGORY_CONFIGURATION = "configuration"
+internal const val CATEGORY_EXECUTION = "execution"
+internal const val CATEGORY_TEST = "test"
 
 private val Gradle.cmdline: String
     get() = startParameter.taskNames.joinToString(" ", "./gradlew ")
