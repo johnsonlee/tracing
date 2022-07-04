@@ -22,4 +22,4 @@ Then, you can see the `trace.html` file in the `build` directory.
 open build/trace.html
 ```
 
-
+![screenshot](https://user-images.githubusercontent.com/2344882/177184577-9d4bdde9-4569-4a40-83dd-dd903150f984.png)
