@@ -24,7 +24,7 @@ object Trace {
             category: String,
             args: Map<String, Any?> = emptyMap(),
             block: () -> R
-    ): R{
+    ): R {
         begin(name, category, args)
         val result = block()
         end(name, category, args)
@@ -47,6 +47,10 @@ object Trace {
                 phase = Duration.END,
                 args = args
         )
+    }
+
+    fun event(event: TraceEvent) = apply {
+        events += event
     }
 
     fun dump(title: String, output: File) = output.outputStream().buffered().use { out ->
