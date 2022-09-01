@@ -8,3 +8,8 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+include(":event")
+include(":plugin")
+include(":runtime")
+include(":util")
