@@ -1,4 +1,3 @@
-import org.gradle.api.Project.DEFAULT_VERSION
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
