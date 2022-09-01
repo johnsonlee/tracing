@@ -1,9 +1,24 @@
 package io.johnsonlee.tracing
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import io.johnsonlee.tracing.event.Async
+import io.johnsonlee.tracing.event.Complete
+import io.johnsonlee.tracing.event.CompleteEvent
+import io.johnsonlee.tracing.event.Counter
 import io.johnsonlee.tracing.event.Duration
 import io.johnsonlee.tracing.event.DurationEvent
+import io.johnsonlee.tracing.event.Flow
+import io.johnsonlee.tracing.event.Instance
+import io.johnsonlee.tracing.event.Sample
 import io.johnsonlee.tracing.event.TraceEvent
+import io.johnsonlee.tracing.mixin.AsyncMixin
+import io.johnsonlee.tracing.mixin.CompleteMixin
+import io.johnsonlee.tracing.mixin.CounterMixin
+import io.johnsonlee.tracing.mixin.DurationMixin
+import io.johnsonlee.tracing.mixin.FlowMixin
+import io.johnsonlee.tracing.mixin.InstanceMixin
+import io.johnsonlee.tracing.mixin.SampleMixin
+import io.johnsonlee.tracing.mixin.TraceEventMixin
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.OutputStream
@@ -16,6 +31,15 @@ import java.util.zip.GZIPOutputStream
 object Trace {
 
     private val objectMapper = jacksonObjectMapper()
+        .addMixIn(CompleteEvent::class.java, TraceEventMixin::class.java)
+        .addMixIn(DurationEvent::class.java, TraceEventMixin::class.java)
+        .addMixIn(Async::class.java, AsyncMixin::class.java)
+        .addMixIn(Complete::class.java, CompleteMixin::class.java)
+        .addMixIn(Counter::class.java, CounterMixin::class.java)
+        .addMixIn(Duration::class.java, DurationMixin::class.java)
+        .addMixIn(Flow::class.java, FlowMixin::class.java)
+        .addMixIn(Instance::class.java, InstanceMixin::class.java)
+        .addMixIn(Sample::class.java, SampleMixin::class.java)
 
     private val events = CopyOnWriteArrayList<TraceEvent>()
 
@@ -36,6 +60,10 @@ object Trace {
                 name = name,
                 category = category,
                 phase = Duration.BEGIN,
+                ts = ts(),
+                tts = tts(),
+                pid = pid(),
+                tid = tid(),
                 args = args
         )
     }
@@ -45,6 +73,10 @@ object Trace {
                 name = name,
                 category = category,
                 phase = Duration.END,
+                ts = ts(),
+                tts = tts(),
+                pid = pid(),
+                tid = tid(),
                 args = args
         )
     }

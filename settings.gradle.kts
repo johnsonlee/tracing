@@ -8,3 +8,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+include(":events")
+include(":plugin")
+include(":tracer")

@@ -1,7 +1,7 @@
 package io.johnsonlee.tracing.gradle
 
-import io.johnsonlee.tracing.event.pid
-import io.johnsonlee.tracing.event.tid
+import io.johnsonlee.tracing.pid
+import io.johnsonlee.tracing.tid
 import org.gradle.api.Plugin
 import org.gradle.api.internal.TaskInternal
 import org.gradle.api.invocation.Gradle

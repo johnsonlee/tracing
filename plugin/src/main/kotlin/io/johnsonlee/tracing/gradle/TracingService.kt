@@ -41,7 +41,8 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
     override fun onFinish(event: FinishEvent) {
         when (event) {
             is ProjectConfigurationFinishEvent -> {
-                Trace.event(CompleteEvent(
+                Trace.event(
+                    CompleteEvent(
                         name = event.displayName,
                         category = CATEGORY_CONFIGURATION,
                         duration = event.duration,
@@ -50,11 +51,13 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                         pid = event.pid,
                         tid = 0L,
                         args = mapOf("id" to event.id)
-                ))
+                )
+                )
             }
             is TaskFinishEvent -> when (val result = event.result) {
                 is TaskSuccessResult -> {
-                    Trace.event(CompleteEvent(
+                    Trace.event(
+                        CompleteEvent(
                             name = event.displayName,
                             category = CATEGORY_EXECUTION,
                             duration = event.duration,
@@ -69,10 +72,12 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                                     "fromCache" to result.isFromCache,
                                     "upToDate" to result.isUpToDate
                             )
-                    ))
+                    )
+                    )
                 }
                 is TaskSkippedResult -> {
-                    Trace.event(CompleteEvent(
+                    Trace.event(
+                        CompleteEvent(
                             name = event.displayName,
                             category = CATEGORY_EXECUTION,
                             duration = event.duration,
@@ -85,10 +90,12 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                                     "identityPath" to event.identityPath,
                                     "skipMessage" to result.skipMessage
                             )
-                    ))
+                    )
+                    )
                 }
                 is TaskFailureResult -> {
-                    Trace.event(CompleteEvent(
+                    Trace.event(
+                        CompleteEvent(
                             name = event.displayName,
                             category = CATEGORY_EXECUTION,
                             duration = event.duration,
@@ -102,13 +109,15 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                                     "incremental" to result.isIncremental,
                                     "failures" to result.failures
                             )
-                    ))
+                    )
+                    )
                 }
 
             }
             is TestFinishEvent -> when (val result = event.result) {
                 is TestSuccessResult -> {
-                    Trace.event(CompleteEvent(
+                    Trace.event(
+                        CompleteEvent(
                             name = event.displayName,
                             category = CATEGORY_TEST,
                             duration = event.duration,
@@ -120,10 +129,12 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                                     "id" to event.id,
                                     "success" to true
                             )
-                    ))
+                    )
+                    )
                 }
                 is TestFailureResult -> {
-                    Trace.event(CompleteEvent(
+                    Trace.event(
+                        CompleteEvent(
                             name = event.displayName,
                             category = CATEGORY_TEST,
                             duration = event.duration,
@@ -135,10 +146,12 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                                     "id" to event.id,
                                     "failures" to result.failures
                             )
-                    ))
+                    )
+                    )
                 }
                 is TestSkippedResult -> {
-                    Trace.event(CompleteEvent(
+                    Trace.event(
+                        CompleteEvent(
                             name = event.displayName,
                             category = CATEGORY_TEST,
                             duration = event.duration,
@@ -150,11 +163,13 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                                     "id" to event.id,
                                     "skipped" to true
                             )
-                    ))
+                    )
+                    )
                 }
             }
             is TransformFinishEvent -> {
-                Trace.event(CompleteEvent(
+                Trace.event(
+                    CompleteEvent(
                         name = event.displayName,
                         category = CATEGORY_EXECUTION,
                         duration = event.duration,
@@ -163,10 +178,12 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                         pid = event.pid,
                         tid = event.tid,
                         args = mapOf("id" to event.id)
-                ))
+                )
+                )
             }
             is WorkItemFinishEvent -> {
-                Trace.event(CompleteEvent(
+                Trace.event(
+                    CompleteEvent(
                         name = event.displayName,
                         category = CATEGORY_EXECUTION,
                         duration = event.duration,
@@ -175,10 +192,12 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                         pid = event.pid,
                         tid = event.tid,
                         args = mapOf("id" to event.id)
-                ))
+                )
+                )
             }
             else -> {
-                Trace.event(CompleteEvent(
+                Trace.event(
+                    CompleteEvent(
                         name = event.displayName,
                         category = CATEGORY_UNKNOWN,
                         duration = event.duration,
@@ -187,7 +206,8 @@ abstract class TracingService : BuildService<TracingService.Parameters>, AutoClo
                         pid = event.pid,
                         tid = event.tid,
                         args = mapOf("id" to event.id)
-                ))
+                )
+                )
             }
         }
     }
