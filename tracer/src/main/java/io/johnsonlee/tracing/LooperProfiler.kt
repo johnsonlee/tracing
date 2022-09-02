@@ -1,7 +1,6 @@
 package io.johnsonlee.tracing
 
 import android.util.Printer
-import androidx.tracing.Trace
 
 class LooperProfiler(
     private val enabled: Boolean = true,
