@@ -12,7 +12,7 @@ class LooperProfiler(
     private var what: Int = 0
 
     override fun println(message: String) {
-        if (!enabled || !Trace.isEnabled()) return
+        if (!enabled) return
 
         if (message.startsWith(LOOP_ENTER_PREFIX)) {
             t0 = System.nanoTime()
