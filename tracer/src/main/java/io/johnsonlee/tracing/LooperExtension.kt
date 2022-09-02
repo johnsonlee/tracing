@@ -13,8 +13,8 @@ private const val CONTINUATION_AT_PREFIX = ", Continuation at "
 @JvmSynthetic
 internal fun buildLabel(message: String, maxLength: Int = message.length): String {
     val label = when {
-        message.startsWith(LOOP_ENTER_PREFIX) -> buildLabel(message, LOOP_ENTER_PREFIX, message.length)
-        message.startsWith(LOOP_EXIT_PREFIX) -> buildLabel(message, LOOP_EXIT_PREFIX, message.lastIndexOf(':'))
+        message.startsWith(LOOP_ENTER_PREFIX) -> buildLabel(message, LOOP_ENTER_PREFIX, message.lastIndexOf(':'))
+        message.startsWith(LOOP_EXIT_PREFIX) -> buildLabel(message, LOOP_EXIT_PREFIX, message.length)
         else -> null
     } ?: message
     return if (label.length > maxLength) label.take(maxLength) else label
