@@ -38,14 +38,14 @@ private fun buildHandlerLabel(message: String, prefix: String, end: Int): String
     if (dc > -1) {
         val at = message.indexOf(CONTINUATION_AT_PREFIX, dc + DISPATCHED_CONTINUATION_PREFIX.length)
         val rk = message.lastIndexOf(']').takeIf { it >= 0 } ?: end
-        return message.substring(at + CONTINUATION_AT_PREFIX.length, rk)
+        return message.substring(at + CONTINUATION_AT_PREFIX.length, rk).substringBeforeLast('@')
     }
 
     if (rb > -1) {
         val offset = if (message[rb + 1] == ' ') 2 else 1
         val callback = message.substring(rb + offset, end)
         if ("null" != callback) {
-            return callback
+            return callback.substringBeforeLast('@')
         }
     }
 
